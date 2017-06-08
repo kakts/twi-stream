@@ -24,7 +24,7 @@ function createWindow() {
 
   win.webContents.openDevTools();
   const param = {
-    track: '地震'
+    track: 'nintendo'
   };
   twClient.stream('statuses/filter', param, (stream) => {
     stream.on('data', (tweet) => {
