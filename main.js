@@ -1,13 +1,20 @@
-const {app, BrowserWindow} = require('electron');
+const electron = require('electron');
+const app = electron.app
+const BrowserWindow = electron.BrowserWindow
 const path = require('path');
 const url = require('url');
 
-let win;
+const twConfig = require('./conf/config');
 
+const twitter = require('twitter');
+const twClient = new twitter(twConfig);
+
+let win;
+console.error(electron);
 function createWindow() {
   console.log('[ready] event emitted.');
-  win = new BrowserWindow({width: 800, height: 600});
-
+  win = new BrowserWindow({backgroundColor: '2e2c29', width: 800, height: 600});
+  win.show()
   // load the index.html of the app.
   win.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
@@ -16,6 +23,20 @@ function createWindow() {
   }));
 
   win.webContents.openDevTools();
+  const param = {
+    track: '地震'
+  };
+  twClient.stream('statuses/filter', param, (stream) => {
+    stream.on('data', (tweet) => {
+      console.error("----data", tweet.text);
+      win.webContents.send('tweet', JSON.stringify(tweet));
+    });
+
+    stream.on('error', (error) => {
+      console.error(error);
+    });
+  });
+
 
   win.on('closed', () => {
     console.log('[closed] event emitted.');
@@ -34,6 +55,11 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
+});
+
+app.on('login', (event, webContents, request, authInfo, callback) => {
+  event.preventDefault();
+  callback('username', 'secret')
 });
 
 app.on('activate', () => {
