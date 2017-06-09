@@ -13,7 +13,7 @@ let win;
 console.error(electron);
 function createWindow() {
   console.log('[ready] event emitted.');
-  win = new BrowserWindow({backgroundColor: '2e2c29', width: 800, height: 600});
+  win = new BrowserWindow({backgroundColor: '2e2c29', width: 800, height: 600, frame: false});
   win.show()
   // load the index.html of the app.
   win.loadURL(url.format({
@@ -28,7 +28,6 @@ function createWindow() {
   };
   twClient.stream('statuses/filter', param, (stream) => {
     stream.on('data', (tweet) => {
-      console.error("----data", tweet.text);
       win.webContents.send('tweet', JSON.stringify(tweet));
     });
 

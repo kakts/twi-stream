@@ -1,8 +1,8 @@
 const $ = jQuery = require('./jquery-3.2.1.js');
 
 const {ipcRenderer} = require('electron');
-
 $(() => {
+
   ipcRenderer.on('tweet', (event, arg) => {
     const tweet = JSON.parse(arg);
         console.error("---tweet event occured", tweet);
