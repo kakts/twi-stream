@@ -26,7 +26,11 @@ function createWindow() {
   const param = {
     track: 'nintendo'
   };
-  twClient.stream('statuses/filter', param, (stream) => {
+  const STREAM_API_PATHS = {
+    FILTER: 'statuses/filter',
+    USER: 'user'
+  };
+  twClient.stream(STREAM_API_PATHS.USER, param, (stream) => {
     stream.on('data', (tweet) => {
       win.webContents.send('tweet', JSON.stringify(tweet));
     });

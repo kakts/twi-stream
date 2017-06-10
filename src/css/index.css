@@ -10,7 +10,7 @@ div#tweet_disp{
   position: relative;
 }
 
-div#tweet_disp > #tw_1 {
+div#tweet_disp > .tw {
   color: white;
   animation-name: lane0;
   animation-timing-function: linear;
