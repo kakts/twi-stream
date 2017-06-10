@@ -1,0 +1,27 @@
+div#tweet_disp{
+  color: black;
+  -webkit-border-radius: 2px;
+  background: #A9BCF5;
+
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: default;
+  -webkit-user-select: none;
+  position: relative;
+}
+
+div#tweet_disp > #tw_1 {
+  color: white;
+  animation-name: lane0;
+  animation-timing-function: linear;
+  animation-duration: 8s;
+  animation-fill-mode: forwards;
+}
+@keyframes lane0 {
+  from {
+    transform: translate(640px, 0);
+  }
+  to {
+    transform: translate(-1280px, 0);
+  }
+}
