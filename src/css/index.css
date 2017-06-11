@@ -1,8 +1,8 @@
 div#tweet_disp{
   color: black;
   -webkit-border-radius: 2px;
-  background: #A9BCF5;
-
+  // background: #A9BCF5;
+  background: white;
   overflow: hidden;
   white-space: nowrap;
   cursor: default;
@@ -11,17 +11,21 @@ div#tweet_disp{
 }
 
 div#tweet_disp > .tw {
-  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  white-space: nowrap;
   animation-name: lane0;
   animation-timing-function: linear;
   animation-duration: 8s;
   animation-fill-mode: forwards;
+  word-wrap: break-word;
 }
 @keyframes lane0 {
   from {
-    transform: translate(640px, 0);
+    transform: translateX(1240px);
   }
   to {
-    transform: translate(-1280px, 0);
+    transform: translate(-1240px, 0);
   }
 }

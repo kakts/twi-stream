@@ -13,7 +13,7 @@ let win;
 console.error(electron);
 function createWindow() {
   console.log('[ready] event emitted.');
-  win = new BrowserWindow({width: 800, height: 600, frame: false});
+  win = new BrowserWindow({width: 1240, height: 1240});
   win.show()
   // load the index.html of the app.
   win.loadURL(url.format({
@@ -23,9 +23,11 @@ function createWindow() {
   }));
 
   win.webContents.openDevTools();
+  // const param = {
+  //   track: 'nintendo'
+  // };
   const param = {
-    track: 'nintendo'
-  };
+  }
   const STREAM_API_PATHS = {
     FILTER: 'statuses/filter',
     USER: 'user'
