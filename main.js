@@ -3,15 +3,20 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const path = require('path');
 const url = require('url');
+const ipcMain = electron.ipcMain;
 
 const twConfig = require('./conf/config');
 
 const twitter = require('twitter');
-const twClient = new twitter(twConfig);
 
+const STREAM_API_PATHS = {
+  FILTER: 'statuses/filter',
+  USER: 'user'
+};
 let win;
 console.error(electron);
 function createWindow() {
+  const twClient = new twitter(twConfig);
   console.log('[ready] event emitted.');
   win = new BrowserWindow({width: 1240, height: 1240});
   win.show()
@@ -23,16 +28,13 @@ function createWindow() {
   }));
 
   win.webContents.openDevTools();
-  // const param = {
-  //   track: 'nintendo'
-  // };
   const param = {
-  }
-  const STREAM_API_PATHS = {
-    FILTER: 'statuses/filter',
-    USER: 'user'
+    track: 'フロンターレ,frontale'
   };
-  twClient.stream(STREAM_API_PATHS.USER, param, (stream) => {
+  // const param = {
+  // }
+
+  twClient.stream(STREAM_API_PATHS.FILTER, param, (stream) => {
     stream.on('data', (tweet) => {
       win.webContents.send('tweet', JSON.stringify(tweet));
     });
@@ -71,4 +73,31 @@ app.on('activate', () => {
   if (win === null) {
     createWindow();
   }
+});
+
+// 検索条件を変えて画面を更新する
+ipcMain.on('searchRefresh', (event, msg) => {
+  const twClient = new twitter(twConfig);
+  console.error("----ipcMain", msg);
+   // load the index.html of the app.
+   win.loadURL(url.format({
+     pathname: path.join(__dirname, 'index.html'),
+     protocol: 'file:',
+     slashes: true
+   }));
+
+   win.webContents.openDevTools();
+   const param = {
+     track: msg
+   };
+
+   twClient.stream(STREAM_API_PATHS.FILTER, param, (stream) => {
+     stream.on('data', (tweet) => {
+       win.webContents.send('tweet', JSON.stringify(tweet));
+     });
+
+     stream.on('error', (error) => {
+       console.error(error);
+     });
+   });
 });

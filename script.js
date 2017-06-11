@@ -38,3 +38,11 @@ $(() => {
     }, 7000);
   });
 });
+
+
+function FormSubmit() {
+  console.error("----form submit");
+
+  let word = $('#search_word [name=word]').val();
+  ipcRenderer.send('searchRefresh', word);
+}
